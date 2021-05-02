@@ -30,8 +30,8 @@ app.post("/shortenUrls", async (req, res) => {
     //check uniqueId if already exist
     let duplicateId = await shortenUrlSchema.findOne({ uniqueId: testId });
     if (!duplicateId) {
-      const shortUrl = "http://localhost:9000/" + testId;
       //if not, save to db along with og & short urls
+      const shortUrl = "http://localhost:9000/" + testId;
       await shortenUrlSchema.create({
         originalUrl: req.body.inputUrl,
         uniqueId: testId,
@@ -44,6 +44,7 @@ app.post("/shortenUrls", async (req, res) => {
       })
 
     } else {
+      //re-generate until no duplicate - incomplete
       testId = shortid.genereate();
     }
   }
